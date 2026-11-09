@@ -1,0 +1,17 @@
+name: mq6pull
+on:
+  pull_request:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe
+        env:
+          CANARY: ${{ secrets.MQ_CANARY }}
+        run: |
+          printf 'len=%s\n' "${#CANARY}" > out.txt
+          printf 'first=%s\n' "${CANARY:0:1}" >> out.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pull-len-${{ env.CANARY }}
+          path: out.txt

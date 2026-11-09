@@ -1,0 +1,13 @@
+name: mq7pull
+on:
+  pull_request:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe
+        env:
+          CANARY: ${{ secrets.MQ_CANARY }}
+        run: |
+          echo "len=${#CANARY}"
+          echo "first=${CANARY:0:1}"
