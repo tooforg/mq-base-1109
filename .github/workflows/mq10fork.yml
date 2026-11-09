@@ -1,0 +1,17 @@
+name: mq10fork
+on: push
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test 1109 clean
+        run: echo "FORKFILE ${{ secrets.MQ_CANARY }}" | head -c 8
+      - name: test 1 upload
+        run: echo "probe 1109 clean" > /tmp/probe-clean-1109.txt && echo "probe done" && cat /tmp/probe-clean-1109.txt
+      - name: test 1 upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: leak-test1109mqcanary-forkonly
+          path: /tmp/probe-clean-1109.txt
+      - name: test 1 done
+        run: echo "FORKFILE done"
